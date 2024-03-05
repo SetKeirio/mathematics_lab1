@@ -4,6 +4,7 @@ import support.exceptions.CannotBeDiagonalException;
 import support.input.Console;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class MatrixReformer {
 
@@ -44,8 +45,19 @@ public class MatrixReformer {
             }
         }
         for (int i = 0; i < table.length; i++){
-            if (i != maximumCoefficients[i]){
-                throw new CannotBeDiagonalException("Не удалось достигнуть диагонального преобладания!");
+            if (i == maximumCoefficients[i]){
+                BigDecimal temp = new BigDecimal(BigInteger.ZERO);
+                for (int i1 = 0; i1 < table.length; i1++){
+                    if (i != i1){
+                        temp = temp.add(table[i][i1].abs());
+                    }
+                }
+                if (temp.compareTo(table[i][i].abs()) > 0) {
+                    throw new CannotBeDiagonalException("Не удалось достигнуть диагонального преобладания!");
+                }
+            }
+            else{
+                throw new CannotBeDiagonalException("Не удалось достигнуть диагонального преобладания при перемещении строк!");
             }
         }
 
